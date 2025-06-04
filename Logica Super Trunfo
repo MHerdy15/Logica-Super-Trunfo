@@ -1,65 +1,83 @@
 import random
 
-# Definição de cartas
+# Lista de cartas
 cartas = [
     {"nome": "Dragão", "força": 90, "velocidade": 60, "magia": 70},
     {"nome": "Fênix", "força": 75, "velocidade": 80, "magia": 95},
     {"nome": "Golem", "força": 85, "velocidade": 40, "magia": 30},
     {"nome": "Grifo", "força": 80, "velocidade": 70, "magia": 60},
-    {"nome": "Unicórnio", "força": 60, "velocidade": 75, "magia": 90}
+    {"nome": "Unicórnio", "força": 60, "velocidade": 75, "magia": 90},
+    {"nome": "Minotauro", "força": 88, "velocidade": 50, "magia": 40},
+    {"nome": "Hidra", "força": 92, "velocidade": 55, "magia": 65},
+    {"nome": "Quimera", "força": 78, "velocidade": 65, "magia": 55}
 ]
 
-# Função para sortear carta aleatória
-def sortear_carta():
-    return random.choice(cartas)
+# Embaralha e divide cartas
+random.shuffle(cartas)
+meio = len(cartas) // 2
+mao_jogador = cartas[:meio]
+mao_computador = cartas[meio:]
 
-# Função para mostrar atributos
+# Função para mostrar carta
 def mostrar_carta(carta):
     print(f"\nCarta: {carta['nome']}")
     print(f"Força: {carta['força']}")
     print(f"Velocidade: {carta['velocidade']}")
     print(f"Magia: {carta['magia']}")
 
-# Início do jogo
-print("=== Super Trunfo - Batalha de Cartas ===")
+# Inicializa placar
+pontos_jogador = 0
+pontos_computador = 0
+rodada = 1
 
-# Sorteio das cartas
-carta_jogador = sortear_carta()
-carta_computador = sortear_carta()
+print("=== SUPER TRUNFO - BATALHA DE CARTAS ===\n")
 
-# Evita cartas repetidas
-while carta_computador == carta_jogador:
-    carta_computador = sortear_carta()
+# Loop de rodadas
+while mao_jogador and mao_computador:
+    print(f"\n🔁 Rodada {rodada}")
+    carta_jogador = mao_jogador.pop(0)
+    carta_computador = mao_computador.pop(0)
 
-# Mostra a carta do jogador
-print("\nSua carta é:")
-mostrar_carta(carta_jogador)
+    print("\nSua carta é:")
+    mostrar_carta(carta_jogador)
 
-# Jogador escolhe atributo
-atributo = input("\nEscolha um atributo para disputar (força, velocidade, magia): ").lower()
+    # Escolha de atributo
+    atributo = input("\nEscolha um atributo (força, velocidade, magia): ").lower()
+    while atributo not in ["força", "velocidade", "magia"]:
+        atributo = input("Atributo inválido. Escolha (força, velocidade, magia): ").lower()
 
-# Validação
-while atributo not in ["força", "velocidade", "magia"]:
-    atributo = input("Atributo inválido. Escolha (força, velocidade, magia): ").lower()
+    valor_jogador = carta_jogador[atributo]
+    valor_computador = carta_computador[atributo]
 
-# Mostra carta do computador
-print("\nCarta do computador:")
-mostrar_carta(carta_computador)
+    print("\nCarta do computador:")
+    mostrar_carta(carta_computador)
 
-# Comparação
-valor_jogador = carta_jogador[atributo]
-valor_computador = carta_computador[atributo]
+    print(f"\nVocê escolheu: {atributo.upper()}")
+    print(f"Seu valor: {valor_jogador}")
+    print(f"Valor do computador: {valor_computador}")
 
-print(f"\nVocê escolheu: {atributo.upper()}")
-print(f"Sua pontuação: {valor_jogador}")
-print(f"Pontuação do computador: {valor_computador}")
+    # Resultado da rodada
+    if valor_jogador > valor_computador:
+        print("🎉 Você venceu a rodada!")
+        pontos_jogador += 1
+    elif valor_jogador < valor_computador:
+        print("💥 O computador venceu a rodada!")
+        pontos_computador += 1
+    else:
+        print("⚔️ Empate na rodada!")
 
-# Resultado
-if valor_jogador > valor_computador:
-    print("\n🎉 Você venceu a rodada!")
-elif valor_jogador < valor_computador:
-    print("\n💥 Você perdeu! O computador venceu.")
+    print(f"\nPlacar parcial -> Você: {pontos_jogador} | Computador: {pontos_computador}")
+    rodada += 1
+
+# Resultado final
+print("\n=== FIM DO JOGO ===")
+print(f"\n🏁 Placar final -> Você: {pontos_jogador} | Computador: {pontos_computador}")
+
+if pontos_jogador > pontos_computador:
+    print("🏆 Parabéns! Você venceu o jogo!")
+elif pontos_jogador < pontos_computador:
+    print("🤖 O computador venceu o jogo. Boa sorte na próxima!")
 else:
-    print("\n⚔️ Empate!")
+    print("⚖️ O jogo terminou empatado!")
 
-print("\n=== Fim da rodada ===")
+print("\nObrigado por jogar Super Trunfo!")
