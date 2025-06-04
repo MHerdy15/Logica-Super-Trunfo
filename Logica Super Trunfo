@@ -1,0 +1,65 @@
+import random
+
+# Definição de cartas
+cartas = [
+    {"nome": "Dragão", "força": 90, "velocidade": 60, "magia": 70},
+    {"nome": "Fênix", "força": 75, "velocidade": 80, "magia": 95},
+    {"nome": "Golem", "força": 85, "velocidade": 40, "magia": 30},
+    {"nome": "Grifo", "força": 80, "velocidade": 70, "magia": 60},
+    {"nome": "Unicórnio", "força": 60, "velocidade": 75, "magia": 90}
+]
+
+# Função para sortear carta aleatória
+def sortear_carta():
+    return random.choice(cartas)
+
+# Função para mostrar atributos
+def mostrar_carta(carta):
+    print(f"\nCarta: {carta['nome']}")
+    print(f"Força: {carta['força']}")
+    print(f"Velocidade: {carta['velocidade']}")
+    print(f"Magia: {carta['magia']}")
+
+# Início do jogo
+print("=== Super Trunfo - Batalha de Cartas ===")
+
+# Sorteio das cartas
+carta_jogador = sortear_carta()
+carta_computador = sortear_carta()
+
+# Evita cartas repetidas
+while carta_computador == carta_jogador:
+    carta_computador = sortear_carta()
+
+# Mostra a carta do jogador
+print("\nSua carta é:")
+mostrar_carta(carta_jogador)
+
+# Jogador escolhe atributo
+atributo = input("\nEscolha um atributo para disputar (força, velocidade, magia): ").lower()
+
+# Validação
+while atributo not in ["força", "velocidade", "magia"]:
+    atributo = input("Atributo inválido. Escolha (força, velocidade, magia): ").lower()
+
+# Mostra carta do computador
+print("\nCarta do computador:")
+mostrar_carta(carta_computador)
+
+# Comparação
+valor_jogador = carta_jogador[atributo]
+valor_computador = carta_computador[atributo]
+
+print(f"\nVocê escolheu: {atributo.upper()}")
+print(f"Sua pontuação: {valor_jogador}")
+print(f"Pontuação do computador: {valor_computador}")
+
+# Resultado
+if valor_jogador > valor_computador:
+    print("\n🎉 Você venceu a rodada!")
+elif valor_jogador < valor_computador:
+    print("\n💥 Você perdeu! O computador venceu.")
+else:
+    print("\n⚔️ Empate!")
+
+print("\n=== Fim da rodada ===")
